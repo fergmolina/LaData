@@ -471,6 +471,7 @@ if st.sidebar.button("Bridges"):
     st.session_state['current_page'] = 'bridges'
 
 current_page = st.session_state.get('current_page', 'home')
+
 # Google Analytics
 st.markdown(
     """
@@ -484,6 +485,7 @@ st.markdown(
         gtag('config', 'G-0ETCQEHLL0');
         </script>
     """, unsafe_allow_html=True)
+
 if current_page == 'home':
     home()
 elif current_page == 'prices':
