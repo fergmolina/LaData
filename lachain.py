@@ -447,6 +447,17 @@ def bridges():
 
     display_section(bridges)
 
+def google_analytics(tracking_id):
+    html_template = f"""
+    <script async src="https://www.googletagmanager.com/gtag/js?id={tracking_id}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{tracking_id}');
+    </script>
+    """
+    components.html(html_template, height=0, width=0)
 
 #### LOADING WEBSITE ####
 
@@ -457,6 +468,7 @@ st.set_page_config(
 )
 
 
+google_analytics('G-0ETCQEHLL0')
 
 st.sidebar.title("Menu")
 if st.sidebar.button("Home"):
@@ -471,20 +483,6 @@ if st.sidebar.button("Bridges"):
     st.session_state['current_page'] = 'bridges'
 
 current_page = st.session_state.get('current_page', 'home')
-
-# Google Analytics
-st.markdown(
-    """
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ETCQEHLL0"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-0ETCQEHLL0');
-        </script>
-    """, unsafe_allow_html=True)
 
 if current_page == 'home':
     home()
