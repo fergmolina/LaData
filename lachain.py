@@ -5,6 +5,9 @@ from datetime import datetime, timezone, timedelta
 import streamlit as st
 import plotly.graph_objects as go
 import streamlit.components.v1 as components
+from bs4 import BeautifulSoup
+import shutil
+import pathlib
 
 
 ######### FUNCTIONS ########
@@ -447,19 +450,39 @@ def bridges():
 
     display_section(bridges)
 
-def google_analytics(tracking_id):
-    html_template = f"""
-    <script async src="https://www.googletagmanager.com/gtag/js?id={tracking_id}"></script>
+
+def add_analytics_tag():
+    # replace G-XXXXXXXXXX to your web app's ID
+    
+    analytics_js = """
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ETCQEHLL0"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){{dataLayer.push(arguments);}}
-      gtag('js', new Date());
-      gtag('config', '{tracking_id}');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-0ETCQEHLL0');
     </script>
+    <div id="G-0ETCQEHLL0"></div>
     """
-    components.html(html_template, height=0, width=0)
+    analytics_id = "G-0ETCQEHLL0"
+
+    
+    # Identify html path of streamlit
+    index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
+    soup = BeautifulSoup(index_path.read_text(), features="html.parser")
+    if not soup.find(id=analytics_id): # if id not found within html file
+        bck_index = index_path.with_suffix('.bck')
+        if bck_index.exists():
+            shutil.copy(bck_index, index_path)  # backup recovery
+        else:
+            shutil.copy(index_path, bck_index)  # save backup
+        html = str(soup)
+        new_html = html.replace('<head>', '<head>\n' + analytics_js) 
+        index_path.write_text(new_html) # insert analytics tag at top of head
 
 #### LOADING WEBSITE ####
+add_analytics_tag()
 
 st.set_page_config(
     page_title='LaData - LaChain info',  
@@ -468,7 +491,6 @@ st.set_page_config(
 )
 
 
-google_analytics('G-0ETCQEHLL0')
 
 st.sidebar.title("Menu")
 if st.sidebar.button("Home"):
