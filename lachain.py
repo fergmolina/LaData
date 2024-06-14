@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timezone, timedelta
 import streamlit as st
 import plotly.graph_objects as go
+import streamlit.components.v1 as components
 
 
 ######### FUNCTIONS ########
@@ -448,11 +449,14 @@ def bridges():
 
 
 #### LOADING WEBSITE ####
+
 st.set_page_config(
     page_title='LaData - LaChain info',  
     page_icon='🔗',  
     initial_sidebar_state='expanded'  
 )
+
+
 
 st.sidebar.title("Menu")
 if st.sidebar.button("Home"):
@@ -467,7 +471,19 @@ if st.sidebar.button("Bridges"):
     st.session_state['current_page'] = 'bridges'
 
 current_page = st.session_state.get('current_page', 'home')
+# Google Analytics
+st.markdown(
+    """
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ETCQEHLL0"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-0ETCQEHLL0');
+        </script>
+    """, unsafe_allow_html=True)
 if current_page == 'home':
     home()
 elif current_page == 'prices':
