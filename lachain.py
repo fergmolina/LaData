@@ -394,8 +394,7 @@ def home():
     st.subheader('Tu hub de información para todo lo relacionado con la blockchain LaChain.')
     st.write('')
     st.write('')
-    st.write('¿Querés colaborar? Hace una donación en cualquier red a `0x8CE8ce3C36F107461D9dd0AaC367Be8f53d8C643`')
-    st.write('Más info de cómo fue creado LaData en [Bloque X](https://bloquex.me/)')
+    st.write('Más info de cómo fue creado LaData en [Bloque X](https://bloquex.me/2024/06/14/bloque-13-analizando-lachain-con-streamlit/)')
     st.write('Webmaster (?): Fernando Molina - [@fergmolina](https://linktr.ee/fergmolina)')
 
 def display_section(items):
